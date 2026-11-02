@@ -17,7 +17,7 @@ export function ContactInfo({ site, dict }: { site: SiteSettings; dict: Dict }) 
       href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`,
     },
     site.phone && { icon: Phone, label: t.phone, value: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` },
-    whatsappDigits && { icon: Chat, label: t.whatsapp, value: site.whatsapp, href: `https://wa.me/${whatsappDigits}` },
+    whatsappDigits && { icon: Chat, label: t.whatsapp, value: site.whatsapp, href: `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(t.whatsappText)}` },
   ].filter(Boolean) as Item[];
 
   const socials = [

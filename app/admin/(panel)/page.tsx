@@ -52,7 +52,7 @@ export default async function OverviewPage() {
             <span className="muted">
               {mailReady
                 ? `Contact form messages are emailed to ${process.env.CONTACT_TO || "ferdinandluis88@gmail.com"}.`
-                : "Not set up yet. Messages are saved in Messages, but not emailed. Add SMTP_USER and SMTP_PASS (a Gmail App Password) to .env.local and restart."}
+                : "Not set up yet. Messages are saved in Messages, but not emailed. Add RESEND_API_KEY to .env.local and restart."}
               {unsent > 0 && ` ${unsent} saved message${unsent === 1 ? " was" : "s were"} not emailed.`}
             </span>
           </li>

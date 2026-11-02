@@ -82,7 +82,15 @@ export const id: Dict = {
     name: "Nama Anda",
     emailField: "Email Anda",
     subject: "Tentang apa?",
-    subjects: { project: "Sebuah proyek", collaboration: "Kolaborasi", question: "Sebuah pertanyaan", other: "Lainnya" },
+    subjects: { project: "Sebuah proyek", connect: "Sekadar menyapa", collaboration: "Kolaborasi", question: "Sebuah pertanyaan", other: "Lainnya" },
+    whatsappText: "Halo Luis, saya menemukan portofolio Anda dan ingin berbincang.",
+    quickTitle: "Mulai dari template",
+    quick: { project: "Tanya soal proyek", connect: "Sekadar terhubung" },
+    templates: {
+      project:
+        "Halo Luis,\n\nSaya ingin berdiskusi tentang sebuah proyek.\n\nYang saya butuhkan (website, aplikasi web, redesain…): \nUntuk siapa: \nTenggat waktu: \nAnggaran (opsional): \n\nTerima kasih!",
+      connect: "Halo Luis,\n\nSaya menemukan portofolio Anda dan ingin menyapa serta terhubung. Mari ngobrol kapan-kapan!\n\nTerima kasih!",
+    },
     message: "Pesan",
     send: "Kirim pesan",
     sending: "Mengirim…",

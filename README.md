@@ -34,17 +34,17 @@ Open <http://localhost:3000>, then <http://localhost:3000/admin> to sign in.
 | `ADMIN_USERNAME`, `ADMIN_PASSWORD` | The admin login. Choose your own password |
 | `SESSION_SECRET` | 32+ random characters; signs the admin session cookie |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Image uploads. Or one `CLOUDINARY_URL=cloudinary://KEY:SECRET@CLOUD_NAME` |
-| `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` | Contact form email (below) |
+| `RESEND_API_KEY`, `CONTACT_TO`, `CONTACT_FROM` | Contact form email through Resend (below) |
 
 ### Making the contact form email you
 
-Every message from the form is **saved in the database first** (see `/admin/messages`), then emailed to `CONTACT_TO` (default `ferdinandluis88@gmail.com`). Until `SMTP_PASS` is set, messages are saved but not emailed, and the admin Overview says so.
+Every message from the form is **saved in the database first** (see `/admin/messages`), then emailed to `CONTACT_TO` (default `ferdinandluis88@gmail.com`) through [Resend](https://resend.com). Until `RESEND_API_KEY` is set, messages are saved but not emailed, and the admin Overview says so.
 
-For Gmail:
+1. Sign up at resend.com with the email address that should receive the messages (ferdinandluis88@gmail.com).
+2. API Keys, Create API Key, permission **Sending access**. Copy the key (it starts with `re_`).
+3. Put it in `.env.local` as `RESEND_API_KEY=re_…` and restart. On Vercel, add it under Settings, Environment Variables.
 
-1. Turn on 2-Step Verification for the account.
-2. Google Account, Security, App passwords: create one (16 characters).
-3. Put it in `.env.local` as `SMTP_PASS=…` (and `SMTP_USER=ferdinandluis88@gmail.com`), then restart.
+Out of the box the mail is sent from Resend's test sender (`onboarding@resend.dev`), which Resend only delivers to your own account email, so it works for this inbox with no domain. To send from your own address, verify a domain under Resend, Domains, then set `CONTACT_FROM="Portfolio <contact@yourdomain.com>"`. Replying to the email answers the visitor directly.
 
 Spam protection: a hidden honeypot field, validation, and a limit of 5 messages per hour per visitor.
 

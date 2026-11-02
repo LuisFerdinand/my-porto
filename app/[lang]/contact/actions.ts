@@ -15,6 +15,7 @@ export type ContactState = {
 
 const SUBJECTS: Record<string, string> = {
   project: "A project",
+  connect: "Just saying hi",
   collaboration: "Collaboration",
   question: "A question",
   other: "Something else",
@@ -27,7 +28,7 @@ const schema = z.object({
   message: z.string().trim().min(10).max(4000),
   lang: z.enum(["en", "id"]),
   // A honeypot: real visitors never see or fill this field.
-  website: z.string().max(0),
+  hp_check: z.string().max(0),
 });
 
 const MAX_PER_HOUR = 5;
@@ -39,12 +40,15 @@ export async function sendMessage(_prev: ContactState, formData: FormData): Prom
     subject: String(formData.get("subject") ?? ""),
     message: String(formData.get("message") ?? ""),
     lang: String(formData.get("lang") ?? "en"),
-    website: String(formData.get("website") ?? ""),
+    hp_check: String(formData.get("hp_check") ?? ""),
   };
   const values = { name: raw.name, email: raw.email, subject: raw.subject, message: raw.message };
 
   // Bots fill the hidden field. Pretend it worked and store nothing.
-  if (raw.website) return { status: "success" };
+  if (raw.hp_check) {
+    console.warn("[contact] ignored: the hidden spam-trap field was filled (a bot, or a browser extension autofilling it)");
+    return { status: "success" };
+  }
 
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {
@@ -53,6 +57,7 @@ export async function sendMessage(_prev: ContactState, formData: FormData): Prom
       const key = issue.path[0];
       if (key === "name" || key === "email" || key === "message") fields[key] = true;
     }
+    console.warn("[contact] not sent: invalid", Object.keys(fields).join(", ") || "form");
     return { status: "error", fields, values };
   }
 

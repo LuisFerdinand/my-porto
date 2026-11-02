@@ -1,10 +1,13 @@
 import "server-only";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const DEFAULT_TO = "ferdinandluis88@gmail.com";
+// Resend's shared test sender. It only delivers to the email address your Resend account was created with.
+// Once you verify your own domain in Resend, set CONTACT_FROM to an address on it.
+const DEFAULT_FROM = "Portfolio contact form <onboarding@resend.dev>";
 
 export function mailConfigured(): boolean {
-  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+  return Boolean(process.env.RESEND_API_KEY);
 }
 
 export type ContactMail = {
@@ -16,33 +19,23 @@ export type ContactMail = {
 };
 
 /**
- * Sends a contact-form message to CONTACT_TO (default: ferdinandluis88@gmail.com) over SMTP.
- * For Gmail, SMTP_USER is the address and SMTP_PASS is a 16-character App Password
- * (Google Account > Security > 2-Step Verification > App passwords).
+ * Sends a contact-form message to CONTACT_TO (default: ferdinandluis88@gmail.com) through Resend.
+ * Replying to the email goes to the visitor, not to the sender address.
  */
 export async function sendContactMail(mail: ContactMail): Promise<{ ok: true } | { ok: false; error: string }> {
-  if (!mailConfigured()) return { ok: false, error: "SMTP_USER and SMTP_PASS are not set" };
-
-  const port = Number(process.env.SMTP_PORT ?? 465);
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST ?? "smtp.gmail.com",
-    port,
-    secure: port === 465,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    connectionTimeout: 8000,
-    greetingTimeout: 8000,
-    socketTimeout: 12000,
-  });
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { ok: false, error: "RESEND_API_KEY is not set" };
 
   const subject = mail.subject || "Message";
   try {
-    await transporter.sendMail({
-      from: `"Portfolio contact form" <${process.env.SMTP_USER}>`,
+    const { error } = await new Resend(apiKey).emails.send({
+      from: process.env.CONTACT_FROM || DEFAULT_FROM,
       to: process.env.CONTACT_TO || DEFAULT_TO,
-      replyTo: `"${mail.name.replace(/"/g, "")}" <${mail.email}>`,
-      subject: `[Portfolio] ${subject} from ${mail.name}`,
+      replyTo: `${mail.name.replace(/[<>"\r\n]/g, "")} <${mail.email}>`,
+      subject: `[Portfolio] ${subject} from ${mail.name.replace(/[\r\n]/g, " ")}`,
       text: `From: ${mail.name} <${mail.email}>\nLanguage: ${mail.locale}\nTopic: ${subject}\n\n${mail.message}\n`,
     });
+    if (error) return { ok: false, error: `${error.name}: ${error.message}`.slice(0, 300) };
     return { ok: true };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message.slice(0, 300) : "Unknown mail error" };

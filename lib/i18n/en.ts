@@ -81,7 +81,15 @@ export const en = {
     name: "Your name",
     emailField: "Your email",
     subject: "What is it about?",
-    subjects: { project: "A project", collaboration: "Collaboration", question: "A question", other: "Something else" },
+    subjects: { project: "A project", connect: "Just saying hi", collaboration: "Collaboration", question: "A question", other: "Something else" },
+    whatsappText: "Hi Luis, I found your portfolio and I’d like to talk.",
+    quickTitle: "Start with a template",
+    quick: { project: "Ask about a project", connect: "Just connect" } as Record<string, string>,
+    templates: {
+      project:
+        "Hi Luis,\n\nI’d like to talk about a project.\n\nWhat I need (website, web app, redesign…): \nWho it’s for: \nTimeline: \nBudget (optional): \n\nThank you!",
+      connect: "Hi Luis,\n\nI found your portfolio and wanted to say hello and connect. Let’s chat sometime!\n\nThank you!",
+    } as Record<string, string>,
     message: "Message",
     send: "Send message",
     sending: "Sending…",

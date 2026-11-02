@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Check, Send } from "@/components/icons";
 import { sendMessage } from "@/app/[lang]/contact/actions";
 import type { ContactState } from "@/app/[lang]/contact/actions";
@@ -10,6 +10,15 @@ import type { Locale } from "@/lib/i18n/config";
 export function ContactForm({ lang, dict }: { lang: Locale; dict: Dict }) {
   const t = dict.contact;
   const [state, action, pending] = useActionState<ContactState, FormData>(sendMessage, { status: "idle" });
+  // The form starts with a ready-to-edit project enquiry. Picking another topic swaps the text, but never overwrites
+  // anything the visitor has changed.
+  const templates = t.templates;
+  const [subject, setSubject] = useState(state.values?.subject || "project");
+  const [message, setMessage] = useState(state.values?.message ?? templates.project);
+  const pick = (next: string) => {
+    setSubject(next);
+    if (message.trim() === "" || Object.values(templates).includes(message)) setMessage(templates[next] ?? "");
+  };
 
   if (state.status === "success") {
     return (
@@ -35,8 +44,8 @@ export function ContactForm({ lang, dict }: { lang: Locale; dict: Dict }) {
       {/* Honeypot: hidden from people, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
-          Website
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          Leave this empty
+          <input type="text" name="hp_check" tabIndex={-1} autoComplete="off" data-lpignore="true" data-1p-ignore data-form-type="other" />
         </label>
       </div>
 
@@ -66,10 +75,23 @@ export function ContactForm({ lang, dict }: { lang: Locale; dict: Dict }) {
       </div>
 
       <div>
+        <p className="field-label" id="c-quick">
+          {t.quickTitle}
+        </p>
+        <div className="segmented" role="group" aria-labelledby="c-quick">
+          {Object.entries(t.quick).map(([key, label]) => (
+            <button key={key} type="button" className="seg" aria-pressed={subject === key} onClick={() => pick(key)}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
         <label htmlFor="c-subject" className="field-label">
           {t.subject}
         </label>
-        <select id="c-subject" name="subject" className="field" defaultValue={v?.subject || "project"}>
+        <select id="c-subject" name="subject" className="field" value={subject} onChange={(e) => pick(e.target.value)}>
           {Object.entries(t.subjects).map(([value, label]) => (
             <option key={value} value={value}>
               {label}
@@ -82,7 +104,7 @@ export function ContactForm({ lang, dict }: { lang: Locale; dict: Dict }) {
         <label htmlFor="c-message" className="field-label">
           {t.message}
         </label>
-        <textarea id="c-message" name="message" className="field" rows={6} required defaultValue={v?.message} aria-invalid={bad.message} aria-describedby={bad.message ? "c-message-err" : undefined} />
+        <textarea id="c-message" name="message" className="field" rows={9} required value={message} onChange={(e) => setMessage(e.target.value)} aria-invalid={bad.message} aria-describedby={bad.message ? "c-message-err" : undefined} />
         {bad.message && (
           <p id="c-message-err" className="help !text-red-700" role="alert">
             {t.errors.message}

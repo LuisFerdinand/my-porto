@@ -65,6 +65,8 @@ if (force || current < SEED_VERSION) {
 
 // Social links added after the first seed: fill them only while the field is still empty, so edits made in /admin win.
 await sql.query("update site_settings set linkedin_url = $1 where id = 1 and linkedin_url = ''", [site.linkedin_url]);
+await sql.query("update site_settings set phone = $1 where id = 1 and phone = ''", [site.phone]);
+await sql.query("update site_settings set whatsapp = $1 where id = 1 and whatsapp = ''", [site.whatsapp]);
 await sql.query("update site_settings set instagram_url = $1 where id = 1 and instagram_url = ''", [site.instagram_url]);
 
 // ---- projects ----

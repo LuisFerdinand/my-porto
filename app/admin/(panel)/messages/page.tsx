@@ -14,8 +14,8 @@ export default async function MessagesPage() {
 
       {!ready && (
         <p className="panel mb-4 font-bold">
-          Email sending isn’t set up yet, so messages are only saved here. Add <code>SMTP_USER</code> and <code>SMTP_PASS</code> (a Gmail App
-          Password) to <code>.env.local</code> and restart to have them forwarded to your inbox.
+          Email sending isn’t set up yet, so messages are only saved here. Add <code>RESEND_API_KEY</code> to <code>.env.local</code> and
+          restart to have them forwarded to your inbox.
         </p>
       )}
 
