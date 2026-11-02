@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+A bilingual (English and Indonesian) portfolio on Next.js 16. Content lives in Neon Postgres, images in Cloudinary, and everything is edited from a password-protected admin panel.
 
-First, run the development server:
+## Pages
+
+| URL | What it is |
+| --- | --- |
+| `/en`, `/id` | Home: a short landing page that uses all the data (hero, what I build, selected projects, activity chart, recent timeline, contact call to action) |
+| `/en/about` | About: story, vision and mission, stack, and the full career timeline |
+| `/en/portfolio` | Portfolio: every published project, filterable by technology |
+| `/en/contact` | Contact: address, company and social links, and a form that emails you |
+| `/admin` | Admin panel (English only) |
+
+Visiting `/` redirects to the visitor's saved language, or the browser's language, or English. The `EN` menu in the floating nav switches language and remembers the choice.
+
+## Run it
 
 ```bash
+npm install
+npm run db:setup     # creates the tables and seeds starter content (safe to re-run)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>, then <http://localhost:3000/admin> to sign in.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`npm run db:setup -- --force` overwrites the seeded text, projects and timeline again. It replaces edits you made to those rows, so use it only to reset.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment variables (`.env.local`)
 
-## Learn More
+| Variable | What it is |
+| --- | --- |
+| `DATABASE_URL` | Neon / Postgres connection string |
+| `ADMIN_USERNAME`, `ADMIN_PASSWORD` | The admin login. Choose your own password |
+| `SESSION_SECRET` | 32+ random characters; signs the admin session cookie |
+| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Image uploads. Or one `CLOUDINARY_URL=cloudinary://KEY:SECRET@CLOUD_NAME` |
+| `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` | Contact form email (below) |
 
-To learn more about Next.js, take a look at the following resources:
+### Making the contact form email you
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Every message from the form is **saved in the database first** (see `/admin/messages`), then emailed to `CONTACT_TO` (default `ferdinandluis88@gmail.com`). Until `SMTP_PASS` is set, messages are saved but not emailed, and the admin Overview says so.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For Gmail:
 
-## Deploy on Vercel
+1. Turn on 2-Step Verification for the account.
+2. Google Account, Security, App passwords: create one (16 characters).
+3. Put it in `.env.local` as `SMTP_PASS=…` (and `SMTP_USER=ferdinandluis88@gmail.com`), then restart.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Spam protection: a hidden honeypot field, validation, and a limit of 5 messages per hour per visitor.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Editing content
+
+Everything on the site is edited in `/admin`. Each translatable text has an English box and a **Bahasa Indonesia** box side by side. If the Indonesian box is empty, the Indonesian page shows the English text.
+
+- **Hero, About, Contact**: your name, role, description, story, vision, mission, stack, address, links.
+- **Timeline**: add or edit entries (work, projects, education, milestones) with dates, tags and a link.
+- **Projects**: add, edit, reorder, feature on the home page, and publish or keep as a draft. The **Started** date drives the activity chart on the home page.
+- **Messages**: the inbox for the contact form.
+
+## How it fits together
+
+- Routes live under `app/[lang]/…`; `proxy.ts` handles the language redirect and guards `/admin`.
+- UI text is in `lib/i18n/en.ts` and `id.ts`. Database content is stored in English with the Indonesian text in an `id_content` JSON column (`lib/i18n/overlay.ts`).
+- `lib/content.ts` reads public data inside `"use cache"` functions tagged `site`, `projects` and `timeline`; every admin save calls `updateTag()`, so the site updates at once.
+- Admin auth is a signed cookie (`lib/session*.ts`); every admin page, server action and route handler re-checks it.
+- Image uploads go from the browser straight to Cloudinary with a short-lived signature from `/api/admin/upload-signature`; the API secret never leaves the server.
+
+## Design
+
+The look follows a dashboard reference: a cool blue-grey ground, rounded off-white panels, near-black cards, black pill buttons, soft layering and a geometric sans (Urbanist). Tokens are at the top of `app/globals.css`. The nav floats at the top on desktop and sits at the bottom on phones.
+
+## Checking a production build while `npm run dev` is running
+
+```bash
+NEXT_DIST_DIR=.next-verify npm run build
+node scripts/verify-start.mjs      # serves it on http://localhost:3010
+```
+
+## Before deploying
+
+Set the same environment variables on the host, use a strong `ADMIN_PASSWORD`, set `NEXT_PUBLIC_SITE_URL` to your domain, and rotate any credential that was ever pasted into a repo or chat.
