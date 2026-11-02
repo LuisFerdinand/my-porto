@@ -17,6 +17,29 @@ if (!url) {
 }
 const sql = neon(url);
 
+// The current employer is deliberately not shown on the site. Earlier seeds included it, so scrub those once,
+// before the schema drops the old company columns. This only does anything while those columns still exist.
+const [{ has: hadCompany }] = await sql.query(
+  "select exists (select 1 from information_schema.columns where table_name = 'site_settings' and column_name = 'company') as has",
+);
+if (hadCompany) {
+  await sql.query(`
+    update site_settings set
+      address = case when address like 'Jl. Daan Mogot%' then '' else address end,
+      location = case when location = 'Jakarta, Indonesia' then 'Indonesia' else location end,
+      about_body = replace(replace(about_body, ' I work at PT Panatrade Caraka in West Jakarta.', ''), 'based in Jakarta', 'based in Indonesia'),
+      id_content = case when id_content ? 'aboutBody'
+        then jsonb_set(id_content, '{aboutBody}', to_jsonb(replace(replace(id_content->>'aboutBody', ' Saya bekerja di PT Panatrade Caraka, Jakarta Barat.', ''), 'berbasis di Jakarta', 'berbasis di Indonesia')))
+        else id_content end,
+      hero_image_url = coalesce(hero_image_url, '/people/hero.webp'),
+      about_image_url = coalesce(about_image_url, '/people/about.webp')
+    where id = 1`);
+  await sql.query("delete from timeline where title = 'PT Panatrade Caraka'");
+  await sql.query("update timeline set org = 'Company Service' where org = 'Company Service · Panatrade Prestasi'");
+  await sql.query("delete from projects where slug = 'panatrade-prestasi' and updated_at = created_at");
+  console.log("company identity removed from earlier seeds; default photos set");
+}
+
 const schema = readFileSync(new URL("../db/schema.sql", import.meta.url), "utf8");
 for (const statement of schema.split(/;\s*\n/).map((s) => s.trim()).filter(Boolean)) {
   await sql.query(statement);
@@ -40,7 +63,14 @@ if (force || current < SEED_VERSION) {
   console.log("site text already at the current seed version");
 }
 
+// Social links added after the first seed: fill them only while the field is still empty, so edits made in /admin win.
+await sql.query("update site_settings set linkedin_url = $1 where id = 1 and linkedin_url = ''", [site.linkedin_url]);
+await sql.query("update site_settings set instagram_url = $1 where id = 1 and instagram_url = ''", [site.instagram_url]);
+
 // ---- projects ----
+// Seeding keeps updated_at equal to created_at, which is how an unedited row is told apart from one changed in /admin.
+// The two Knock/KINY drafts were published by this seed after being drafts; no one had edited them, so release them once.
+await sql.query("update projects set updated_at = created_at where slug in ('knock-website', 'kimi-group') and published = false and image_url is null");
 // Rows from the earlier seed: delete the untouched ones, unpublish any you edited.
 await sql.query("delete from projects where slug = any($1) and updated_at = created_at", [legacySlugs]);
 await sql.query("update projects set published = false where slug = any($1)", [legacySlugs]);
@@ -58,7 +88,8 @@ for (const pr of projects) {
        description = excluded.description, role = excluded.role, kind = excluded.kind, tags = excluded.tags,
        repo_url = excluded.repo_url, live_url = excluded.live_url, image_url = excluded.image_url,
        started_on = excluded.started_on, last_activity = excluded.last_activity, sort_order = excluded.sort_order,
-       published = excluded.published, featured = excluded.featured, id_content = excluded.id_content, updated_at = now()
+       published = excluded.published, featured = excluded.featured, id_content = excluded.id_content,
+       updated_at = projects.created_at
      ${force ? "" : "where projects.updated_at = projects.created_at"}`,
     values,
   );
@@ -80,4 +111,5 @@ if (force || timelineCount === 0) {
   console.log(`timeline seeded: ${timeline.length} entries`);
 } else {
   console.log(`timeline already has ${timelineCount} entries`);
+  await sql.query("update timeline set org = replace(org, 'Kimi Group', 'KINY GROUP') where org like '%Kimi Group%'");
 }

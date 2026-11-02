@@ -26,7 +26,8 @@ export default async function SiteLayout({
 
   return (
     <html lang={lang} className={urbanist.variable} data-scroll-behavior="smooth">
-      <body>{children}</body>
+      {/* Browser extensions (e.g. Grammarly) add attributes to <body> before React loads; that is not a bug in the app. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

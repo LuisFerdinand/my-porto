@@ -35,8 +35,6 @@ export type SiteSettings = {
   address: string;
   phone: string;
   whatsapp: string;
-  company: string;
-  companyUrl: string;
   githubUrl: string;
   linkedinUrl: string;
   instagramUrl: string;

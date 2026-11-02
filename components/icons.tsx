@@ -154,3 +154,19 @@ export const MoreVertical = (p: P) => (
     <circle cx="12" cy="18" r="1.2" fill="currentColor" />
   </svg>
 );
+export const Lock = (p: P) => (
+  <svg {...base} {...p}>
+    <rect x="5" y="11" width="14" height="9" rx="2" />
+    <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+  </svg>
+);
+export const BarChart = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M5 20V11M12 20V4M19 20v-6" />
+  </svg>
+);
+export const Upload = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M12 16V4M7 9l5-5 5 5M5 20h14" />
+  </svg>
+);

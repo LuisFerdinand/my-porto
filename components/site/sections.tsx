@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TechIcon } from "@/components/tech-icon";
 import { ArrowRight, Briefcase, Code, Flag, Globe, Layers, Mail, Target } from "@/components/icons";
 import type { Dict } from "@/lib/i18n";
 import { localizeHref } from "@/lib/i18n/config";
@@ -111,10 +112,11 @@ export function StackGrid({ site, dict }: { site: SiteSettings; dict: Dict }) {
               <Layers />
             </span>
             <h3 className="h3 mt-4">{dict.about.groups[g.group] ?? g.group}</h3>
-            <ul className="mt-4 flex flex-wrap gap-1.5">
+            <ul className="mt-4 grid grid-cols-3 gap-2">
               {g.items.map((item) => (
-                <li key={item} className="chip">
-                  {item}
+                <li key={item} className="tech-tile">
+                  <TechIcon name={item} />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>

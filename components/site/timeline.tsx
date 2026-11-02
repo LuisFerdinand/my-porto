@@ -1,4 +1,5 @@
 import { ArrowUpRight, Briefcase, Code, Flag, Layers } from "@/components/icons";
+import { TechIconList } from "@/components/tech-icon";
 import type { Dict } from "@/lib/i18n";
 import { localizeHref } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
@@ -35,15 +36,7 @@ export function TimelineList({ entries, lang, dict }: { entries: TimelineEntry[]
               <h3 className="h3 mt-4">{e.title}</h3>
               {e.org && <p className="small muted mt-0.5 font-bold">{e.org}</p>}
               {e.description && <p className="muted mt-3 max-w-[44rem]">{e.description}</p>}
-              {e.tags.length > 0 && (
-                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Technologies">
-                  {e.tags.map((t) => (
-                    <li key={t} className="chip !bg-card">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {e.tags.length > 0 && <TechIconList names={e.tags} className="mt-4" />}
               {e.linkUrl && (
                 <a
                   href={localizeHref(lang, e.linkUrl)}

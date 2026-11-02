@@ -64,6 +64,9 @@ create index if not exists projects_order_idx on projects (published, sort_order
 alter table site_settings drop column if exists hero_greeting;
 alter table site_settings drop column if exists work_heading;
 alter table site_settings drop column if exists work_intro;
+-- The current employer is deliberately not shown on the site
+alter table site_settings drop column if exists company;
+alter table site_settings drop column if exists company_url;
 alter table projects drop column if exists day_time;
 alter table projects drop column if exists day_note;
 
@@ -75,8 +78,6 @@ alter table site_settings add column if not exists address text not null default
 alter table site_settings add column if not exists phone text not null default '';
 alter table site_settings add column if not exists whatsapp text not null default '';
 alter table site_settings add column if not exists instagram_url text not null default '';
-alter table site_settings add column if not exists company text not null default '';
-alter table site_settings add column if not exists company_url text not null default '';
 alter table site_settings add column if not exists id_content jsonb not null default '{}'::jsonb;
 alter table site_settings add column if not exists seed_version integer not null default 1;
 

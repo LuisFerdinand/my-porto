@@ -1,4 +1,5 @@
 import { ArrowUpRight, Github } from "@/components/icons";
+import { TechIconList } from "@/components/tech-icon";
 import { SmartImage } from "@/components/smart-image";
 import { formatMonth, initialsOf } from "@/lib/format";
 import type { Dict } from "@/lib/i18n";
@@ -46,13 +47,7 @@ export function ProjectCard({
         </div>
         {project.summary && <p className="muted">{project.summary}</p>}
         {detailed && project.description && <p className="small muted">{project.description}</p>}
-        <ul className="flex flex-wrap gap-1.5" aria-label="Technologies">
-          {project.tags.slice(0, detailed ? 8 : 4).map((t) => (
-            <li key={t} className="chip !bg-card">
-              {t}
-            </li>
-          ))}
-        </ul>
+        <TechIconList names={project.tags} max={detailed ? 10 : 6} />
         {(project.liveUrl || project.repoUrl) && (
           <div className="mt-auto flex flex-wrap gap-2 pt-3">
             {project.liveUrl && (

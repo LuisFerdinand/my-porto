@@ -6,7 +6,8 @@ import { urbanist } from "../fonts";
 export default function AdminRootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={urbanist.variable} data-scroll-behavior="smooth">
-      <body>{children}</body>
+      {/* Browser extensions (e.g. Grammarly) add attributes to <body> before React loads; that is not a bug in the app. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

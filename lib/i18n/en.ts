@@ -20,8 +20,8 @@ export const en = {
   },
   home: {
     heroCta: "Contact me",
-    heroCardCompany: "Works at",
     heroCardHolder: "Card holder",
+    heroPhotoAlt: "{name}, full-stack web developer, holding a laptop",
     stats: { projects: "Projects shipped", live: "Live websites", tech: "Technologies" },
     build: { title: "What I build" },
     featured: { title: "Selected projects", intro: "A few of the web products I built recently, each one live or open on GitHub.", cta: "See the full portfolio" },
@@ -38,7 +38,7 @@ export const en = {
   about: {
     title: "About me",
     basedIn: "Based in",
-    company: "Company",
+    photoAlt: "{name} working at a laptop",
     visionTitle: "Vision",
     missionTitle: "Mission",
     stackTitle: "Stack",
@@ -74,7 +74,6 @@ export const en = {
     address: "Address",
     phone: "Phone",
     whatsapp: "WhatsApp",
-    company: "Company",
     social: "Elsewhere",
     openMap: "Open in Google Maps",
     formTitle: "Send a message",

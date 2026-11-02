@@ -28,8 +28,6 @@ export default async function ContactAdminPage() {
                 <TextField name="phone" label="Phone" defaultValue={site.phone} />
                 <TextField name="whatsapp" label="WhatsApp" defaultValue={site.whatsapp} help="With country code, e.g. +62 812…" />
               </div>
-              <TextField name="company" label="Company" defaultValue={site.company} />
-              <TextField name="companyUrl" label="Company website" defaultValue={site.companyUrl} placeholder="https://…" />
             </div>
             <div className="panel grid gap-5">
               <h2 className="text-xl font-extrabold tracking-tight">Links</h2>

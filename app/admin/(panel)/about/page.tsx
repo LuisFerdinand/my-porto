@@ -47,7 +47,7 @@ export default async function AboutAdminPage() {
               folder="portfolio/about"
               initialUrl={site.aboutImageUrl}
               initialPublicId={site.aboutImagePublicId}
-              hint="Optional. Without one, your quote sits on a black card."
+              hint="A head-and-shoulders photo, ideally with a transparent or white background. Optional: without one, your quote sits on a black card."
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Building, Chat, FileText, Github, Instagram, Linkedin, Mail, MapPin, Phone } from "@/components/icons";
+import { ArrowUpRight, Chat, FileText, Github, Instagram, Linkedin, Mail, MapPin, Phone } from "@/components/icons";
 import type { Dict } from "@/lib/i18n";
 import type { SiteSettings } from "@/lib/types";
 
@@ -18,7 +18,6 @@ export function ContactInfo({ site, dict }: { site: SiteSettings; dict: Dict }) 
     },
     site.phone && { icon: Phone, label: t.phone, value: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` },
     whatsappDigits && { icon: Chat, label: t.whatsapp, value: site.whatsapp, href: `https://wa.me/${whatsappDigits}` },
-    site.company && { icon: Building, label: t.company, value: site.company, href: site.companyUrl || undefined },
   ].filter(Boolean) as Item[];
 
   const socials = [

@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/brand-mark";
 import { Github, Instagram, Linkedin, Mail } from "@/components/icons";
-import { initialsOf } from "@/lib/format";
 import type { Dict } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n/config";
 import type { SiteSettings } from "@/lib/types";
@@ -24,7 +24,9 @@ export function Footer({ lang, dict, site }: { lang: Locale; dict: Dict; site: S
       <div className="grid12 gap-y-10">
         <div className="col-span-12 lg:col-span-5">
           <div className="flex items-center gap-3">
-            <span className="logo !bg-white !text-ink">{initialsOf(site.heroTitle)}</span>
+            <span className="logo !bg-white/10">
+              <BrandMark />
+            </span>
             <p className="h3">{site.heroTitle}</p>
           </div>
           <p className="muted mt-4 max-w-[24rem]">{site.heroSubtitle}</p>

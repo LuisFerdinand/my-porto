@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
-import { ArrowUpRight, Building } from "@/components/icons";
+import { ArrowUpRight } from "@/components/icons";
 import { SmartImage } from "@/components/smart-image";
+import { TechIcon } from "@/components/tech-icon";
 import { initialsOf } from "@/lib/format";
 import type { Dict } from "@/lib/i18n";
 import { localizeHref } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
+import { fmt } from "@/lib/i18n/format-client";
 import type { SiteSettings } from "@/lib/types";
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
@@ -14,13 +16,17 @@ export function Hero({
   dict,
   site,
   stats,
+  stack,
 }: {
   lang: Locale;
   dict: Dict;
   site: SiteSettings;
   stats: { projects: number; live: number; tech: number };
+  stack: string[];
 }) {
-  const handle = site.githubUrl.replace(/^https?:\/\//, "");
+  const handle = site.githubUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const nick = handle.split("/").pop() || site.heroTitle;
+  const top = stack.slice(0, 3);
 
   return (
     <section className="surface" aria-labelledby="hero-title">
@@ -70,38 +76,74 @@ export function Hero({
           </dl>
         </div>
 
-        {/* A black profile card with two lighter cards underneath, like the card in the reference. */}
-        <div className="hero-in col-span-12 lg:col-span-5" style={delay(220)}>
-          {site.heroImageUrl && (
-            <div className="portrait">
-              <SmartImage
-                src={site.heroImageUrl}
-                alt={`Portrait of ${site.heroTitle}`}
-                sizes="(min-width: 1024px) 34vw, 92vw"
-                priority
-                className="object-cover"
-              />
+        <div className="hero-in col-span-12 mx-auto w-full max-w-[30rem] lg:col-span-5 lg:max-w-none" style={delay(220)}>
+          {site.heroImageUrl ? (
+            <div>
+              {/* A cut-out photo on a dotted grid, with the stack as floating chips and a terminal card in front. */}
+              <div className="hero-stage dot-grid">
+                <SmartImage
+                  src={site.heroImageUrl}
+                  alt={fmt(dict.home.heroPhotoAlt, { name: site.heroTitle })}
+                  sizes="(min-width: 1024px) 34vw, 92vw"
+                  priority
+                  className="object-cover object-top"
+                />
+                {top.map((name, i) => (
+                  <span key={name} className={`tech-chip tech-chip-${i}`}>
+                    <TechIcon name={name} size="sm" className="!rounded-full" />
+                    {name}
+                  </span>
+                ))}
+              </div>
+
+              <div className="stack-card terminal relative z-10 mx-3 -mt-9 sm:mx-6">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="flex gap-1.5" aria-hidden="true">
+                    <i className="size-2.5 rounded-full bg-white/35" />
+                    <i className="size-2.5 rounded-full bg-white/20" />
+                    <i className="size-2.5 rounded-full bg-white/20" />
+                  </span>
+                  <span className="text-xs text-white/50">~/portfolio</span>
+                </div>
+                <p className="mt-3">
+                  <span className="text-white/45">$</span> whoami
+                </p>
+                <p className="pl-4 font-bold">{nick}</p>
+                {top.length > 0 && (
+                  <>
+                    <p className="mt-1">
+                      <span className="text-white/45">$</span> stack --top {top.length}
+                    </p>
+                    <p className="pl-4 font-bold">{top.join(" · ")}</p>
+                  </>
+                )}
+                {site.heroAvailability && (
+                  <>
+                    <p className="mt-1">
+                      <span className="text-white/45">$</span> status
+                    </p>
+                    <p className="flex items-center gap-2 pl-4 font-bold">
+                      <span className="live-dot" aria-hidden="true" />
+                      {site.heroAvailability}
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
-          )}
-          <div className={`stack-card profile-card float ${site.heroImageUrl ? "relative z-10 -mt-14 mx-4" : ""}`}>
-            <div className="flex items-start justify-between gap-4">
-              <span className="logo !bg-white !text-ink">{initialsOf(site.heroTitle)}</span>
-              <span className="chip">{site.heroSubtitle}</span>
-            </div>
-            <p className="mt-9 break-all text-[clamp(1.05rem,0.9rem+0.7vw,1.4rem)] font-bold tracking-[0.12em]">{handle}</p>
-            <div className="mt-7 flex items-end justify-between gap-4">
-              <div>
+          ) : (
+            // No photo yet: the black profile card on its own.
+            <div className="stack-card profile-card float">
+              <div className="flex items-start justify-between gap-4">
+                <span className="logo !bg-white !text-ink">{initialsOf(site.heroTitle)}</span>
+                <span className="chip">{site.heroSubtitle}</span>
+              </div>
+              <p className="mt-9 break-all text-[clamp(1.05rem,0.9rem+0.7vw,1.4rem)] font-bold tracking-[0.12em]">{handle}</p>
+              <div className="mt-7">
                 <p className="small text-white/60">{dict.home.heroCardHolder}</p>
                 <p className="text-lg font-bold">{site.heroTitle}</p>
               </div>
-              {site.company && (
-                <p className="small inline-flex items-center gap-2 text-right font-bold text-white/80">
-                  <Building className="size-4" />
-                  {site.company}
-                </p>
-              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

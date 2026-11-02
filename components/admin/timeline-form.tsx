@@ -11,7 +11,7 @@ export function TimelineForm({ entry }: { entry?: TimelineEntry }) {
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="panel grid gap-6">
           <BiField name="title" label="Title" en={entry?.title} id={idText(id, "title")} required />
-          <BiField name="org" label="Where" en={entry?.org} id={idText(id, "org")} help="A company, school or the projects involved." />
+          <BiField name="org" label="Where" en={entry?.org} id={idText(id, "org")} help="A school, course or the projects involved." />
           <BiField name="description" label="Description" area rows={4} en={entry?.description} id={idText(id, "description")} />
           <TextField name="tags" label="Technologies" defaultValue={entry?.tags.join(", ")} help="Separate with commas." />
           <TextField name="linkUrl" label="Link" defaultValue={entry?.linkUrl} help="A page such as /portfolio (the language is added for you) or a full https:// link." />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { TechIcon } from "@/components/tech-icon";
 import type { Dict } from "@/lib/i18n";
 import { fmt } from "@/lib/i18n/format-client";
 import type { Locale } from "@/lib/i18n/config";
@@ -29,7 +30,9 @@ export function PortfolioGrid({ projects, lang, dict }: { projects: Project[]; l
           </button>
           {options.map(([name, count]) => (
             <button key={name} type="button" className="seg" aria-pressed={tag === name} onClick={() => setTag(tag === name ? null : name)}>
-              {name} <span className="opacity-60">{count}</span>
+              <TechIcon name={name} size="sm" className="!bg-transparent !p-0.5" />
+              <span className="sr-only">{name}</span>
+              <span className="opacity-60">{count}</span>
             </button>
           ))}
         </div>

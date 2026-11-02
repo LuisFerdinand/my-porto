@@ -19,7 +19,7 @@ export const site = {
 
   about_heading: "Web products that small businesses can run on.",
   about_body:
-    "I’m a full-stack web developer based in Jakarta. I started building for the web in 2024 with HTML, Vue and React, moved on to Laravel, and now build full-stack products with Next.js, TypeScript and PostgreSQL.\n\nMost of what I make is software for small businesses: a phone-first cashier for laundries, a multi-tenant point of sale, a platform for selling business apps, and sites for companies and courses in Indonesia and Timor-Leste. I work at PT Panatrade Caraka in West Jakarta.",
+    "I’m a full-stack web developer based in Indonesia. I started building for the web in 2024 with HTML, Vue and React, moved on to Laravel, and now build full-stack products with Next.js, TypeScript and PostgreSQL.\n\nMost of what I make is software for small businesses: a phone-first cashier for laundries, a multi-tenant point of sale, a platform for selling business apps, and sites for companies and courses in Indonesia and Timor-Leste.",
   about_quote: "Built to be used every day, not only to be demoed.",
   about_highlights: [
     {
@@ -49,16 +49,13 @@ export const site = {
   contact_heading: "Let’s build something together.",
   contact_body: "Tell me about your business and what you need, and I’ll get back to you by email.",
   contact_email: "ferdinandluis88@gmail.com",
-  location: "Jakarta, Indonesia",
-  address:
-    "Jl. Daan Mogot No.151 4, RT.4/RW.5, Duri Kepa, Kec. Kb. Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11510",
+  location: "Indonesia",
+  address: "",
   phone: "",
   whatsapp: "",
-  company: "PT Panatrade Caraka",
-  company_url: "https://panatrade.id/",
   github_url: GH,
-  linkedin_url: "",
-  instagram_url: "",
+  linkedin_url: "https://www.linkedin.com/in/luis-ferdinand-11bab824a/",
+  instagram_url: "https://www.instagram.com/8_fer_11/",
   resume_url: "",
 };
 
@@ -72,7 +69,7 @@ export const siteId = {
   heroAvailability: "Terbuka untuk proyek baru",
   aboutHeading: "Produk web yang bisa dijalankan bisnis kecil.",
   aboutBody:
-    "Saya full-stack web developer yang berbasis di Jakarta. Saya mulai membuat web pada 2024 dengan HTML, Vue, dan React, lalu beralih ke Laravel, dan kini membangun produk full-stack dengan Next.js, TypeScript, dan PostgreSQL.\n\nSebagian besar karya saya adalah perangkat lunak untuk bisnis kecil: kasir laundry yang berjalan di HP, point of sale multi-tenant, platform untuk menjual aplikasi bisnis, serta situs untuk perusahaan dan kursus di Indonesia dan Timor-Leste. Saya bekerja di PT Panatrade Caraka, Jakarta Barat.",
+    "Saya full-stack web developer yang berbasis di Indonesia. Saya mulai membuat web pada 2024 dengan HTML, Vue, dan React, lalu beralih ke Laravel, dan kini membangun produk full-stack dengan Next.js, TypeScript, dan PostgreSQL.\n\nSebagian besar karya saya adalah perangkat lunak untuk bisnis kecil: kasir laundry yang berjalan di HP, point of sale multi-tenant, platform untuk menjual aplikasi bisnis, serta situs untuk perusahaan dan kursus di Indonesia dan Timor-Leste.",
   aboutQuote: "Dibuat untuk dipakai setiap hari, bukan hanya untuk didemokan.",
   aboutHighlights: [
     {
@@ -272,13 +269,50 @@ export const projects = [
   }),
 
   // Drafts: the repos exist but their purpose could not be verified. Fill in and publish from /admin/projects.
-  p({ slug: "knock-website", title: "Knock Website", tags: ["Next.js", "TypeScript", "NextAuth", "Drizzle ORM", "Twilio", "Cloudinary"], repo_url: `${GH}/knock-website`, started_on: "2026-02-03", last_activity: "2026-02-16", sort_order: 100, published: false }),
+  p({
+    slug: "knock-website",
+    title: "Knock",
+    summary: "Website for a home and space improvement studio.",
+    description:
+      "A marketing site for Knock, an Indonesian studio for home and space improvement in South Tangerang. It shows the services and project portfolio, books free consultations through a schedule page and offers round-the-clock support. In Indonesian.",
+    tags: ["Next.js", "TypeScript", "NextAuth", "Drizzle ORM", "Twilio", "Cloudinary"],
+    repo_url: `${GH}/knock-website`,
+    live_url: "https://knockstudio.id",
+    image_url: "/projects/knock-studio.jpg",
+    started_on: "2026-02-03",
+    last_activity: "2026-02-16",
+    sort_order: 5,
+    featured: true,
+    id: {
+      summary: "Situs untuk studio perbaikan rumah dan ruang.",
+      description:
+        "Situs pemasaran Knock, studio perbaikan rumah dan ruang di Tangerang Selatan. Menampilkan layanan dan portofolio proyek, menerima jadwal konsultasi gratis lewat halaman jadwal, serta dukungan sepanjang waktu. Berbahasa Indonesia.",
+    },
+  }),
   p({ slug: "knock-studio-stg", title: "Knock Studio (staging)", tags: ["Next.js", "TypeScript", "NextAuth", "Drizzle ORM"], repo_url: `${GH}/knock-studio-stg`, started_on: "2026-02-06", last_activity: "2026-02-13", sort_order: 110, published: false }),
-  p({ slug: "kimi-group", title: "Kimi Group", tags: ["Next.js", "TypeScript", "NextAuth", "Drizzle ORM", "Cloudinary", "EmailJS"], repo_url: `${GH}/kimi-group`, started_on: "2025-12-13", last_activity: "2026-01-20", sort_order: 120, published: false }),
+  p({
+    slug: "kimi-group",
+    title: "KINY GROUP",
+    summary: "Corporate website for a holding company with 15+ brands.",
+    description:
+      "The website of KINY GROUP, a South Jakarta group that runs more than 15 brands. It has a brand directory, an about page, a blog, a contact form and a sign-in area, with image uploads through Cloudinary. In English.",
+    tags: ["Next.js", "TypeScript", "NextAuth", "Drizzle ORM", "Cloudinary", "EmailJS"],
+    repo_url: `${GH}/kimi-group`,
+    live_url: "https://www.kinygroup.org",
+    image_url: "/projects/kiny-group.jpg",
+    started_on: "2025-12-13",
+    last_activity: "2026-01-20",
+    sort_order: 6,
+    featured: true,
+    id: {
+      summary: "Situs korporat untuk holding dengan 15+ brand.",
+      description:
+        "Situs KINY GROUP, grup usaha di Jakarta Selatan yang menaungi lebih dari 15 brand. Ada direktori brand, halaman tentang, blog, formulir kontak, dan area masuk, dengan unggah gambar lewat Cloudinary. Berbahasa Inggris.",
+    },
+  }),
   p({ slug: "bachelor-camp", title: "Bachelor Camp", tags: ["Next.js", "TypeScript", "tRPC", "Drizzle ORM", "Clerk", "UploadThing"], repo_url: `${GH}/bachelor-camp`, started_on: "2025-08-24", last_activity: "2025-12-26", sort_order: 130, published: false }),
   p({ slug: "university-library-ls", title: "University Library", tags: ["Next.js", "TypeScript", "Drizzle ORM", "Tailwind CSS"], repo_url: `${GH}/university-library-ls`, started_on: "2025-08-05", last_activity: "2025-08-05", sort_order: 140, published: false }),
   p({ slug: "valent", title: "Valent", tags: ["React", "Vite", "Tailwind CSS"], repo_url: `${GH}/valent`, started_on: "2025-08-20", last_activity: "2025-08-21", sort_order: 150, published: false }),
-  p({ slug: "panatrade-prestasi", title: "Panatrade Prestasi", tags: ["React", "Vite", "Tailwind CSS"], repo_url: `${GH}/panatrade-prestasi`, started_on: "2025-07-28", last_activity: "2025-08-21", sort_order: 160, published: false }),
 ];
 
 // Rows from the earlier seed (another GitHub account). Untouched ones are deleted, edited ones are unpublished.
@@ -289,7 +323,6 @@ export const legacySlugs = [
   "storage-system",
   "document-management-system",
   "product-lifecycle-management",
-  "panatrade",
   "pnt-try",
   "lil-seonmul",
 ];
@@ -298,20 +331,6 @@ const t = (o) => ({ kind: "project", ends_on: null, is_current: false, org: "", 
 
 // Newest first. Every entry is dated from real repository activity.
 export const timeline = [
-  t({
-    kind: "work",
-    starts_on: null,
-    is_current: true,
-    title: "PT Panatrade Caraka",
-    org: "West Jakarta",
-    description: "My company, as listed on my GitHub profile, based in Kebon Jeruk, West Jakarta.",
-    link_url: "https://panatrade.id/",
-    id: {
-      title: "PT Panatrade Caraka",
-      org: "Jakarta Barat",
-      description: "Perusahaan tempat saya bekerja, sebagaimana tertulis di profil GitHub saya, berlokasi di Kebon Jeruk, Jakarta Barat.",
-    },
-  }),
   t({
     starts_on: "2026-10-01",
     title: "Software for small businesses",
@@ -366,7 +385,7 @@ export const timeline = [
     starts_on: "2026-02-01",
     title: "Knock",
     org: "Website and staging site",
-    description: "The Knock website and its staging site, built with Next.js, NextAuth, Drizzle ORM and Twilio.",
+    description: "The Knock website (knockstudio.id) and its staging site, built with Next.js, NextAuth, Drizzle ORM and Twilio.",
     tags: ["Next.js", "NextAuth", "Drizzle ORM", "Twilio"],
     id: {
       title: "Knock",
@@ -378,7 +397,7 @@ export const timeline = [
     starts_on: "2025-08-01",
     ends_on: "2025-12-31",
     title: "Moving to full-stack Next.js",
-    org: "Bachelor Camp · Kimi Group",
+    org: "Bachelor Camp · KINY GROUP",
     description: "My first large full-stack products, with databases, authentication, uploads and tRPC. Bachelor Camp grew past 100 commits.",
     tags: ["Next.js", "tRPC", "Drizzle ORM", "Clerk"],
     id: {
@@ -390,7 +409,7 @@ export const timeline = [
     starts_on: "2025-06-01",
     ends_on: "2025-08-31",
     title: "React and Vite",
-    org: "Company Service · Panatrade Prestasi",
+    org: "Company Service",
     description: "A responsive company profile site with React and Tailwind CSS (12 stars on GitHub), plus React and Vite apps.",
     tags: ["React", "Vite", "Tailwind CSS"],
     link_url: "https://github.com/LuisFerdinand/company-service",

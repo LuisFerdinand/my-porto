@@ -34,7 +34,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <SiteShell lang={lang}>
-      <Hero lang={lang} dict={dict} site={site} stats={projectStats(projects)} />
+      <Hero lang={lang} dict={dict} site={site} stats={projectStats(projects)} stack={[ring.name, ...ring.others.map((o) => o.name)].filter(Boolean)} />
 
       <Highlights site={site} title={dict.home.build.title} />
 

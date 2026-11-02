@@ -21,8 +21,8 @@ export const id: Dict = {
   },
   home: {
     heroCta: "Hubungi saya",
-    heroCardCompany: "Bekerja di",
     heroCardHolder: "Pemegang kartu",
+    heroPhotoAlt: "{name}, full-stack web developer, memegang laptop",
     stats: { projects: "Proyek dirilis", live: "Situs aktif", tech: "Teknologi" },
     build: { title: "Yang saya bangun" },
     featured: { title: "Proyek pilihan", intro: "Beberapa produk web yang baru-baru ini saya bangun, semuanya aktif atau terbuka di GitHub.", cta: "Lihat seluruh portofolio" },
@@ -39,7 +39,7 @@ export const id: Dict = {
   about: {
     title: "Tentang saya",
     basedIn: "Berdomisili di",
-    company: "Perusahaan",
+    photoAlt: "{name} sedang bekerja dengan laptop",
     visionTitle: "Visi",
     missionTitle: "Misi",
     stackTitle: "Teknologi",
@@ -75,7 +75,6 @@ export const id: Dict = {
     address: "Alamat",
     phone: "Telepon",
     whatsapp: "WhatsApp",
-    company: "Perusahaan",
     social: "Di tempat lain",
     openMap: "Buka di Google Maps",
     formTitle: "Kirim pesan",

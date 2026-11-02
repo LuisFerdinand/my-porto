@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { BrandMark } from "@/components/brand-mark";
 import { Check, ChevronDown, Grid, Home, Mail, User } from "@/components/icons";
 import { LOCALES, LOCALE_NAMES } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
@@ -25,12 +26,10 @@ export function SiteNav({
   lang,
   labels,
   name,
-  initials,
 }: {
   lang: Locale;
   labels: Labels;
   name: string;
-  initials: string;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -64,8 +63,10 @@ export function SiteNav({
   return (
     <nav className="nav" aria-label={labels.main}>
       <Link href={`/${lang}`} className="nav-brand" aria-label={name}>
-        <span className="logo">{initials}</span>
-        <span className="hidden lg:inline">{name}</span>
+        <span className="logo">
+          <BrandMark />
+        </span>
+        <span className="hidden whitespace-nowrap lg:inline">{name}</span>
       </Link>
 
       <div className="nav-links">

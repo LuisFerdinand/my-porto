@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Building, FileText, Github, MapPin } from "@/components/icons";
+import { Code, FileText, Github, Instagram, Linkedin, MapPin } from "@/components/icons";
 import { SmartImage } from "@/components/smart-image";
 import { SeeMore, StackGrid, VisionMission } from "@/components/site/sections";
 import { SiteShell } from "@/components/site/site-shell";
@@ -8,6 +8,7 @@ import { TimelineList } from "@/components/site/timeline";
 import { getSite, getTimeline } from "@/lib/content";
 import { getDictionary } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n/config";
+import { fmt } from "@/lib/i18n/format-client";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ lang: string }> };
@@ -50,6 +51,16 @@ export default async function AboutPage({ params }: Props) {
                   <Github /> GitHub
                 </a>
               )}
+              {site.linkedinUrl && (
+                <a href={site.linkedinUrl} className="btn btn-light" target="_blank" rel="noopener noreferrer">
+                  <Linkedin /> LinkedIn
+                </a>
+              )}
+              {site.instagramUrl && (
+                <a href={site.instagramUrl} className="btn btn-light" target="_blank" rel="noopener noreferrer">
+                  <Instagram /> Instagram
+                </a>
+              )}
               {site.resumeUrl && (
                 <a href={site.resumeUrl} className="btn btn-light" target="_blank" rel="noopener noreferrer">
                   <FileText /> CV
@@ -58,50 +69,45 @@ export default async function AboutPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="col-span-12 grid gap-4 lg:col-span-5">
-            {site.aboutImageUrl ? (
-              <div className="portrait">
-                <SmartImage src={site.aboutImageUrl} alt={`${site.heroTitle}`} sizes="(min-width: 1024px) 34vw, 92vw" className="object-cover" />
-              </div>
-            ) : (
-              site.aboutQuote && (
-                <figure className="stack-card card-dark !p-7">
-                  <blockquote className="text-[clamp(1.35rem,1.1rem+1vw,1.9rem)] font-bold leading-tight tracking-tight">{site.aboutQuote}</blockquote>
+          <div className="col-span-12 mx-auto grid w-full max-w-[30rem] gap-4 lg:col-span-5 lg:max-w-none">
+            <div>
+              {site.aboutImageUrl && (
+                <div className="portrait dot-grid">
+                  <SmartImage
+                    src={site.aboutImageUrl}
+                    alt={fmt(dict.about.photoAlt, { name: site.heroTitle })}
+                    sizes="(min-width: 1024px) 34vw, 92vw"
+                    priority
+                    className="object-cover object-center"
+                  />
+                  {site.heroSubtitle && (
+                    <span className="tech-chip tech-chip-0">
+                      <span className="grid size-6 place-items-center rounded-full bg-ink text-white" aria-hidden="true">
+                        <Code className="size-3.5" />
+                      </span>
+                      {site.heroSubtitle}
+                    </span>
+                  )}
+                </div>
+              )}
+              {site.aboutQuote && (
+                <figure className={`stack-card card-dark !p-6 ${site.aboutImageUrl ? "relative z-10 mx-4 -mt-14" : ""}`}>
+                  <blockquote className="text-[clamp(1.2rem,1rem+0.9vw,1.6rem)] font-bold leading-tight tracking-tight">{site.aboutQuote}</blockquote>
                 </figure>
-              )
+              )}
+            </div>
+
+            {site.location && (
+              <div className="card-white mt-3 flex items-start gap-3">
+                <span className="icon-tile icon-tile-sm" aria-hidden="true">
+                  <MapPin />
+                </span>
+                <dl>
+                  <dt className="small muted font-bold">{dict.about.basedIn}</dt>
+                  <dd className="font-bold leading-snug">{site.location}</dd>
+                </dl>
+              </div>
             )}
-            <dl className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {site.location && (
-                <div className="card-white flex items-start gap-3">
-                  <span className="icon-tile icon-tile-sm" aria-hidden="true">
-                    <MapPin />
-                  </span>
-                  <div>
-                    <dt className="small muted font-bold">{dict.about.basedIn}</dt>
-                    <dd className="font-bold leading-snug">{site.location}</dd>
-                  </div>
-                </div>
-              )}
-              {site.company && (
-                <div className="card-white flex items-start gap-3">
-                  <span className="icon-tile icon-tile-sm" aria-hidden="true">
-                    <Building />
-                  </span>
-                  <div>
-                    <dt className="small muted font-bold">{dict.about.company}</dt>
-                    <dd className="font-bold leading-snug">
-                      {site.companyUrl ? (
-                        <a href={site.companyUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
-                          {site.company}
-                        </a>
-                      ) : (
-                        site.company
-                      )}
-                    </dd>
-                  </div>
-                </div>
-              )}
-            </dl>
           </div>
         </div>
       </section>

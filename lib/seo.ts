@@ -13,6 +13,12 @@ export function pageMetadata(lang: Locale, path: string, title: string, descript
       canonical: `/${lang}${path}`,
       languages: { en: `/en${path}`, id: `/id${path}`, "x-default": `/en${path}` },
     },
-    openGraph: { title, description, locale: lang === "id" ? "id_ID" : "en_US", type: "website" },
+    openGraph: {
+      title,
+      description,
+      locale: lang === "id" ? "id_ID" : "en_US",
+      type: "website",
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Luis Ferdinand, full-stack web developer" }],
+    },
   };
 }

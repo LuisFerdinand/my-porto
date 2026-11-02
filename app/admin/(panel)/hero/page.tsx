@@ -31,7 +31,7 @@ export default async function HeroAdminPage() {
               folder="portfolio/hero"
               initialUrl={site.heroImageUrl}
               initialPublicId={site.heroImagePublicId}
-              hint="A portrait, taller than wide. Shown above your profile card. Up to 10 MB."
+              hint="A full-length cut-out with a transparent or white background looks best. It stands on a dotted grid with a terminal card in front. Up to 10 MB."
             />
           </div>
         </div>
