@@ -28,7 +28,8 @@ export default async function HomePage({ params }: Props) {
   const [site, projects, timeline] = await Promise.all([getSite(lang), getProjects(lang), getTimeline(lang)]);
   const dict = getDictionary(lang);
 
-  const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.featured) : projects).slice(0, 3);
+  // Only what is starred in /admin/projects, in the same order as the portfolio. No fallback to the latest work.
+  const featured = projects.filter((p) => p.featured);
   const activity = buildActivity(projects, lang);
   const ring = buildStackShare(projects);
 
@@ -38,24 +39,26 @@ export default async function HomePage({ params }: Props) {
 
       <Highlights site={site} title={dict.home.build.title} />
 
-      <section className="surface" aria-labelledby="featured-title" data-reveal>
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 id="featured-title" className="h2">
-              {dict.home.featured.title}
-            </h2>
-            <p className="lead mt-3 max-w-[34rem]">{dict.home.featured.intro}</p>
+      {featured.length > 0 && (
+        <section className="surface" aria-labelledby="featured-title" data-reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 id="featured-title" className="h2">
+                {dict.home.featured.title}
+              </h2>
+              <p className="lead mt-3 max-w-[34rem]">{dict.home.featured.intro}</p>
+            </div>
+            <SeeMore href={`/${lang}/portfolio`}>{dict.home.featured.cta}</SeeMore>
           </div>
-          <SeeMore href={`/${lang}/portfolio`}>{dict.home.featured.cta}</SeeMore>
-        </div>
-        <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featured.map((p) => (
-            <li key={p.slug}>
-              <ProjectCard project={p} lang={lang} dict={dict} />
-            </li>
-          ))}
-        </ul>
-      </section>
+          <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <li key={p.slug}>
+                <ProjectCard project={p} lang={lang} dict={dict} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <ActivityPanel
         points={activity}

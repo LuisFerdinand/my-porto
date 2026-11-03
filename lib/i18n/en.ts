@@ -24,7 +24,7 @@ export const en = {
     heroPhotoAlt: "{name}, full-stack web developer, holding a laptop",
     stats: { projects: "Projects shipped", live: "Live websites", tech: "Technologies" },
     build: { title: "What I build" },
-    featured: { title: "Selected projects", intro: "A few of the web products I built recently, each one live or open on GitHub.", cta: "See the full portfolio" },
+    featured: { title: "Selected projects", intro: "A handpicked selection of the products I have built.", cta: "See the full portfolio" },
     activity: {
       title: "Projects over time",
       caption: "Projects shipped, month by month",

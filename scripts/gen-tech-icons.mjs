@@ -31,6 +31,7 @@ const brands = {
   Resend: "siResend",
   "shadcn/ui": "siShadcnui",
   "Gemini AI": "siGooglegemini",
+  Medusa: "siMedusa",
 };
 
 const entries = Object.entries(brands).map(([name, key]) => {

@@ -93,7 +93,7 @@ export const siteId = {
   contactBody: "Ceritakan tentang bisnis Anda dan apa yang dibutuhkan, lalu saya akan membalas lewat email.",
 };
 
-const p = (o) => ({ kind: "personal", role: "", live_url: "", image_url: null, featured: false, published: true, ...o });
+const p = (o) => ({ kind: "personal", role: "", repo_url: "", live_url: "", image_url: null, featured: false, published: true, ...o });
 
 export const projects = [
   p({
@@ -265,6 +265,100 @@ export const projects = [
       summary: "Situs profil perusahaan yang responsif.",
       description:
         "Situs profil perusahaan yang modern dan responsif, dibangun dengan React dan Tailwind CSS. Sumber terbuka, dengan 12 bintang di GitHub.",
+    },
+  }),
+
+  // PNT work. No repo links on purpose: the code lives in the company account. Facts come from the live sites and the repos' structure.
+  p({
+    slug: "prism-daily-store",
+    title: "PRISM Daily Store",
+    summary: "Daily operations platform for PNT's retail stores.",
+    description:
+      "PRISM (Prestasi Retail Integrated Store Management) is the daily store application for PNT's retail stores. Staff sign in with their employee ID (NIK) to check in and out, track breaks and complete daily tasks such as opening and grooming checks. Managers handle petty cash, daily reports, issues and monthly schedules across stores.",
+    role: "Developer",
+    tags: ["Next.js", "TypeScript", "Drizzle ORM", "PostgreSQL", "NextAuth", "Tailwind CSS"],
+    live_url: "https://prism.panatradeprestasi.com/",
+    image_url: "/projects/prism.jpg",
+    started_on: "2026-02-09",
+    last_activity: "2026-10-28",
+    sort_order: 1,
+    id: {
+      summary: "Platform operasional harian untuk toko ritel PNT.",
+      description:
+        "PRISM (Prestasi Retail Integrated Store Management) adalah aplikasi harian toko untuk toko ritel PNT. Karyawan masuk dengan NIK untuk absen masuk dan pulang, mencatat istirahat, dan menyelesaikan tugas harian seperti pengecekan pembukaan toko dan kerapian. Manajer mengelola kas kecil, laporan harian, isu, dan jadwal bulanan antartoko.",
+      role: "Developer",
+    },
+  }),
+  p({
+    slug: "medusa-commerce",
+    title: "PNT Commerce on Medusa",
+    summary: "Medusa e-commerce with a consumer store and a B2B storefront.",
+    description:
+      "An e-commerce platform built on Medusa JS as a monorepo: a customised backend, a consumer storefront with cart, checkout and customer accounts, and a separate B2B storefront. The backend adds custom modules for banners, content and multiple storefronts, payment gateways for Midtrans and DOKU, workflows for pricing and stock locations, and seed scripts for catalogue, B2B and omnichannel data.",
+    role: "Developer",
+    tags: ["Medusa", "Next.js", "TypeScript", "React"],
+    started_on: "2026-09-24",
+    last_activity: "2026-10-12",
+    sort_order: 2,
+    id: {
+      summary: "E-commerce Medusa dengan toko konsumen dan storefront B2B.",
+      description:
+        "Platform e-commerce di atas Medusa JS dalam bentuk monorepo: backend yang disesuaikan, storefront konsumen dengan keranjang, checkout, dan akun pelanggan, serta storefront B2B tersendiri. Backend menambahkan modul khusus untuk banner, konten, dan banyak storefront, payment gateway Midtrans dan DOKU, workflow untuk harga dan lokasi stok, serta skrip seed untuk katalog, B2B, dan data omnichannel.",
+      role: "Developer",
+    },
+  }),
+  p({
+    slug: "panatrade-b2b",
+    title: "Panatrade B2B Portal",
+    summary: "Wholesale ordering portal for an official sports-equipment distributor.",
+    description:
+      "The B2B portal for a distributor of premium sports equipment. Selected partners browse the footwear, apparel, accessories and equipment catalogue and the brands Specs, Piero and Mizuno, use search, an account and a cart, and can reach the sales team directly. It installs as a web app and is in Indonesian.",
+    role: "Developer",
+    tags: ["React", "PWA"],
+    live_url: "https://b2b.panatrade.id/",
+    image_url: "/projects/panatrade-b2b.jpg",
+    sort_order: 3,
+    id: {
+      summary: "Portal pemesanan grosir untuk distributor resmi peralatan olahraga.",
+      description:
+        "Portal B2B untuk distributor peralatan olahraga premium. Mitra terpilih menelusuri katalog sepatu, apparel, aksesori, dan peralatan serta brand Specs, Piero, dan Mizuno, memakai pencarian, akun, dan keranjang, dan dapat langsung menghubungi tim sales. Dapat dipasang sebagai aplikasi web dan berbahasa Indonesia.",
+      role: "Developer",
+    },
+  }),
+  p({
+    slug: "pdm",
+    title: "PDM",
+    summary: "Product data management for footwear and sports gear.",
+    description:
+      "A product data manager for footwear, apparel, accessories and equipment. Products are organised into silos (families), models and colour articles with SKUs, and each model breaks down into parts and components that point to materials with unit costs and suppliers. Models export to Excel.",
+    role: "Developer",
+    tags: ["Next.js", "TypeScript", "Drizzle ORM", "PostgreSQL", "Tailwind CSS"],
+    started_on: "2025-12-04",
+    last_activity: "2025-12-04",
+    sort_order: 85,
+    id: {
+      summary: "Manajemen data produk untuk sepatu dan perlengkapan olahraga.",
+      description:
+        "Pengelola data produk untuk sepatu, apparel, aksesori, dan peralatan. Produk disusun dalam silo (keluarga), model, dan artikel warna dengan SKU, lalu setiap model diurai menjadi bagian dan komponen yang merujuk ke material beserta biaya satuan dan pemasoknya. Model dapat diekspor ke Excel.",
+      role: "Developer",
+    },
+  }),
+  p({
+    slug: "sample-storage",
+    title: "Sample Storage",
+    summary: "Inventory and borrowing system for a product sample room.",
+    description:
+      "An inventory app for a product sample room. Items are tracked by box and location, staff request or borrow samples through an approval flow, every movement is logged, and clearance forms are generated as PDF. It imports and exports Excel and CSV, and has dashboards for each role: item master, storage master, manager and superadmin.",
+    role: "Developer",
+    tags: ["Next.js", "TypeScript", "Drizzle ORM", "Neon", "NextAuth", "Recharts"],
+    started_on: "2025-10-01",
+    last_activity: "2025-11-25",
+    sort_order: 87,
+    id: {
+      summary: "Sistem inventaris dan peminjaman untuk ruang sampel produk.",
+      description:
+        "Aplikasi inventaris untuk ruang sampel produk. Barang dilacak per kotak dan lokasi, staf mengajukan atau meminjam sampel lewat alur persetujuan, setiap perpindahan dicatat, dan formulir clearance dibuat sebagai PDF. Mendukung impor dan ekspor Excel dan CSV, dengan dasbor untuk tiap peran: item master, storage master, manajer, dan superadmin.",
+      role: "Developer",
     },
   }),
 

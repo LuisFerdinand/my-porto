@@ -32,6 +32,11 @@ export const Check = (p: P) => (
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </svg>
 );
+export const Star = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="m12 3.5 2.6 5.3 5.9.85-4.25 4.15 1 5.85L12 16.9l-5.25 2.75 1-5.85L3.5 9.65l5.9-.85z" />
+  </svg>
+);
 export const Home = (p: P) => (
   <svg {...base} {...p}>
     <path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5.5h-6V20H5a1 1 0 0 1-1-1z" />

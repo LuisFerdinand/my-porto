@@ -271,6 +271,18 @@ export async function saveProject(_prev: FormState, formData: FormData): Promise
   return { ok: true, message: published ? "Project saved and live." : "Project saved as a draft." };
 }
 
+/** Pins or unpins a project on the home page. Sends the wanted state, so a double click can't flip it back. */
+export async function setProjectFeatured(formData: FormData) {
+  await requireAdmin();
+  const id = Number(field(formData, "id"));
+  if (!Number.isInteger(id) || id <= 0) return;
+  const featured = field(formData, "featured") === "true";
+  // updated_at moves on purpose: db:setup leaves a project you have touched alone.
+  await getSql().query("update projects set featured = $1, updated_at = now() where id = $2", [featured, id]);
+  updateTag("projects");
+  redirect("/admin/projects");
+}
+
 export async function deleteProject(formData: FormData) {
   await requireAdmin();
   const id = Number(field(formData, "id"));

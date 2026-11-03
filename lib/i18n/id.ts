@@ -25,7 +25,7 @@ export const id: Dict = {
     heroPhotoAlt: "{name}, full-stack web developer, memegang laptop",
     stats: { projects: "Proyek dirilis", live: "Situs aktif", tech: "Teknologi" },
     build: { title: "Yang saya bangun" },
-    featured: { title: "Proyek pilihan", intro: "Beberapa produk web yang baru-baru ini saya bangun, semuanya aktif atau terbuka di GitHub.", cta: "Lihat seluruh portofolio" },
+    featured: { title: "Proyek pilihan", intro: "Pilihan produk yang telah saya bangun.", cta: "Lihat seluruh portofolio" },
     activity: {
       title: "Proyek dari waktu ke waktu",
       caption: "Proyek yang dirilis, bulan demi bulan",
