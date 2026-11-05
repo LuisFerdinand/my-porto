@@ -81,13 +81,16 @@ export function Hero({
             <div>
               {/* A cut-out photo on a dotted grid, with the stack as floating chips and a terminal card in front. */}
               <div className="hero-stage dot-grid">
-                <SmartImage
-                  src={site.heroImageUrl}
-                  alt={fmt(dict.home.heroPhotoAlt, { name: site.heroTitle })}
-                  sizes="(min-width: 1024px) 34vw, 92vw"
-                  priority
-                  className="object-cover object-top"
-                />
+                {/* Full-body cut-out: shown whole, standing above the part of the stage the terminal card overlaps. */}
+                <div className="absolute inset-x-0 top-[3%] bottom-[8%]">
+                  <SmartImage
+                    src={site.heroImageUrl}
+                    alt={fmt(dict.home.heroPhotoAlt, { name: site.heroTitle })}
+                    sizes="(min-width: 1024px) 34vw, 92vw"
+                    priority
+                    className="object-contain object-bottom"
+                  />
+                </div>
                 {top.map((name, i) => (
                   <span key={name} className={`tech-chip tech-chip-${i}`}>
                     <TechIcon name={name} size="sm" className="!rounded-full" />
