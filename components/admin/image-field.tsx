@@ -135,7 +135,10 @@ export function ImageField({
       <details className="mt-3">
         <summary className="cursor-pointer text-sm font-semibold muted">Use an image link instead</summary>
         <input
-          type="url"
+          // Not type="url": images shipped with the site are local paths such as /projects/x.jpg. The browser
+          // rejects those as "not a URL" and silently blocks the whole form from saving; the server checks the value.
+          type="text"
+          inputMode="url"
           className="field mt-2"
           placeholder="https://…"
           value={url}

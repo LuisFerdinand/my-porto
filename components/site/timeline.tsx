@@ -13,6 +13,23 @@ const ICONS: Record<TimelineKind, typeof Code> = {
   milestone: Flag,
 };
 
+/** One line is a paragraph; several lines (one per line break in /admin) become a bulleted list. */
+function Description({ text }: { text: string }) {
+  const lines = text
+    .split(/\n+/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return null;
+  if (lines.length === 1) return <p className="muted mt-3 max-w-[44rem]">{lines[0]}</p>;
+  return (
+    <ul className="muted mt-3 grid max-w-[44rem] list-disc gap-1.5 pl-5 marker:text-ink">
+      {lines.map((line) => (
+        <li key={line}>{line}</li>
+      ))}
+    </ul>
+  );
+}
+
 /** The full timeline for the About page: a rail with dots, one card per entry, newest first. */
 export function TimelineList({ entries, lang, dict }: { entries: TimelineEntry[]; lang: Locale; dict: Dict }) {
   return (
@@ -35,7 +52,7 @@ export function TimelineList({ entries, lang, dict }: { entries: TimelineEntry[]
               </div>
               <h3 className="h3 mt-4">{e.title}</h3>
               {e.org && <p className="small muted mt-0.5 font-bold">{e.org}</p>}
-              {e.description && <p className="muted mt-3 max-w-[44rem]">{e.description}</p>}
+              <Description text={e.description} />
               {e.tags.length > 0 && <TechIconList names={e.tags} className="mt-4" />}
               {e.linkUrl && (
                 <a

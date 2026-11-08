@@ -1,4 +1,5 @@
 import { ArrowUpRight, Chat, FileText, Github, Instagram, Linkedin, Mail, MapPin, Phone } from "@/components/icons";
+import { cvUrl } from "@/lib/cv";
 import type { Dict } from "@/lib/i18n";
 import type { SiteSettings } from "@/lib/types";
 
@@ -24,7 +25,7 @@ export function ContactInfo({ site, dict }: { site: SiteSettings; dict: Dict }) 
     site.githubUrl && { href: site.githubUrl, label: "GitHub", icon: Github },
     site.linkedinUrl && { href: site.linkedinUrl, label: "LinkedIn", icon: Linkedin },
     site.instagramUrl && { href: site.instagramUrl, label: "Instagram", icon: Instagram },
-    site.resumeUrl && { href: site.resumeUrl, label: "CV", icon: FileText },
+    { href: cvUrl(site), label: "CV", icon: FileText },
   ].filter(Boolean) as { href: string; label: string; icon: typeof Github }[];
 
   return (

@@ -8,6 +8,14 @@ export const en = {
     talk: "Let’s talk",
     language: "Language",
     main: "Main navigation",
+    cv: "CV",
+  },
+  cv: {
+    title: "Curriculum vitae",
+    open: "Open in new tab",
+    download: "Download",
+    close: "Close",
+    fallback: "The preview may not show on some phones. Use Open in new tab to read the PDF.",
   },
   common: {
     visitSite: "Visit site",
@@ -50,7 +58,7 @@ export const en = {
       "Tools & deploy": "Tools & deploy",
     } as Record<string, string>,
     timelineTitle: "Timeline",
-    timelineIntro: "How the work has grown, from first Vue components to products used by small businesses. Dates come from my GitHub activity.",
+    timelineIntro: "My career so far: the roles I have held, what I built in each, and where I studied.",
     kinds: { work: "Work", project: "Projects", education: "Education", milestone: "Milestone" },
     ctaTitle: "Want to see what I built?",
     ctaButton: "Open the portfolio",

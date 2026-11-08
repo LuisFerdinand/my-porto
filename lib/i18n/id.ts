@@ -9,6 +9,14 @@ export const id: Dict = {
     talk: "Mari bicara",
     language: "Bahasa",
     main: "Navigasi utama",
+    cv: "CV",
+  },
+  cv: {
+    title: "Curriculum vitae",
+    open: "Buka di tab baru",
+    download: "Unduh",
+    close: "Tutup",
+    fallback: "Pratinjau mungkin tidak tampil di sebagian ponsel. Gunakan Buka di tab baru untuk membaca PDF-nya.",
   },
   common: {
     visitSite: "Kunjungi situs",
@@ -51,7 +59,7 @@ export const id: Dict = {
       "Tools & deploy": "Alat & deploy",
     },
     timelineTitle: "Linimasa",
-    timelineIntro: "Bagaimana pekerjaan ini berkembang, dari komponen Vue pertama sampai produk yang dipakai bisnis kecil. Tanggal diambil dari aktivitas GitHub saya.",
+    timelineIntro: "Perjalanan karier saya sejauh ini: peran yang pernah saya jalani, apa yang saya bangun di setiap peran, dan tempat saya belajar.",
     kinds: { work: "Pekerjaan", project: "Proyek", education: "Pendidikan", milestone: "Tonggak" },
     ctaTitle: "Ingin melihat hasil karya saya?",
     ctaButton: "Buka portofolio",

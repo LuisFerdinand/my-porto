@@ -6,6 +6,7 @@ import { SeeMore, StackGrid, VisionMission } from "@/components/site/sections";
 import { SiteShell } from "@/components/site/site-shell";
 import { TimelineList } from "@/components/site/timeline";
 import { getSite, getTimeline } from "@/lib/content";
+import { cvUrl } from "@/lib/cv";
 import { getDictionary } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n/config";
 import { fmt } from "@/lib/i18n/format-client";
@@ -61,11 +62,9 @@ export default async function AboutPage({ params }: Props) {
                   <Instagram /> Instagram
                 </a>
               )}
-              {site.resumeUrl && (
-                <a href={site.resumeUrl} className="btn btn-light" target="_blank" rel="noopener noreferrer">
-                  <FileText /> CV
-                </a>
-              )}
+              <a href={cvUrl(site)} className="btn btn-light" target="_blank" rel="noopener noreferrer">
+                <FileText /> CV
+              </a>
             </div>
           </div>
 

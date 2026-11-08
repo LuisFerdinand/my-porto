@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { getSql } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
@@ -10,10 +10,14 @@ import { parseHighlights, parseList, parseSkills, slugify } from "@/lib/format";
 export type FormState = { ok?: boolean; message?: string; error?: string };
 
 const text = (max: number) => z.string().trim().max(max, `Keep this under ${max} characters`);
+/** "linkedin.com/in/me" or "www.site.dev" has no scheme; add https:// instead of rejecting what was typed. */
+const addScheme = (v: string) =>
+  /^(https?:\/\/|\/|#|mailto:|tel:)/i.test(v) || !/^[\w-]+(\.[\w-]+)+(?=[/?#]|$)/.test(v) ? v : `https://${v}`;
 const link = z
   .string()
   .trim()
   .max(500)
+  .transform(addScheme)
   .refine((v) => v === "" || /^(https?:\/\/|\/(?!\/)|#|mailto:)/i.test(v), "Use a link starting with https://, /, # or mailto:");
 const imageUrl = z
   .string()
@@ -49,7 +53,17 @@ async function saveSite(fields: Record<string, string | null>, idPatch: Record<s
        id_content = coalesce(site_settings.id_content, '{}'::jsonb) || excluded.id_content, updated_at = now()`,
     [...Object.values(fields), JSON.stringify(idPatch)],
   );
-  updateTag("site");
+  publish("site");
+}
+
+/**
+ * Makes a saved change show on the public site right away. updateTag() expires the cached data; revalidatePath()
+ * also drops the prerendered pages built from it, so a page that was generated earlier (home, about, contact,
+ * portfolio, in both languages) is rebuilt on its next visit instead of being served as it was.
+ */
+function publish(tag: "site" | "projects" | "timeline") {
+  updateTag(tag);
+  revalidatePath("/[lang]", "layout");
 }
 
 // ---------------------------------------------------------------- hero
@@ -266,7 +280,7 @@ export async function saveProject(_prev: FormState, formData: FormData): Promise
     throw err;
   }
 
-  updateTag("projects");
+  publish("projects");
   if (!id) redirect("/admin/projects");
   return { ok: true, message: published ? "Project saved and live." : "Project saved as a draft." };
 }
@@ -279,7 +293,7 @@ export async function setProjectFeatured(formData: FormData) {
   const featured = field(formData, "featured") === "true";
   // updated_at moves on purpose: db:setup leaves a project you have touched alone.
   await getSql().query("update projects set featured = $1, updated_at = now() where id = $2", [featured, id]);
-  updateTag("projects");
+  publish("projects");
   redirect("/admin/projects");
 }
 
@@ -288,7 +302,7 @@ export async function deleteProject(formData: FormData) {
   const id = Number(field(formData, "id"));
   if (!Number.isInteger(id) || id <= 0) return;
   await getSql().query("delete from projects where id = $1", [id]);
-  updateTag("projects");
+  publish("projects");
   redirect("/admin/projects");
 }
 
@@ -302,8 +316,8 @@ const timelineSchema = z.object({
   title__id: text(140),
   org: text(160),
   org__id: text(160),
-  description: text(800),
-  description__id: text(800),
+  description: text(1500),
+  description__id: text(1500),
   tags: text(300),
   linkUrl: link,
 });
@@ -347,7 +361,7 @@ export async function saveTimeline(_prev: FormState, formData: FormData): Promis
     );
   }
 
-  updateTag("timeline");
+  publish("timeline");
   if (!id) redirect("/admin/timeline");
   return { ok: true, message: published ? "Entry saved and live." : "Entry saved as hidden." };
 }
@@ -357,7 +371,7 @@ export async function deleteTimeline(formData: FormData) {
   const id = Number(field(formData, "id"));
   if (!Number.isInteger(id) || id <= 0) return;
   await getSql().query("delete from timeline where id = $1", [id]);
-  updateTag("timeline");
+  publish("timeline");
   redirect("/admin/timeline");
 }
 

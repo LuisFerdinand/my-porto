@@ -7,6 +7,8 @@ import { BrandMark } from "@/components/brand-mark";
 import { Check, ChevronDown, Grid, Home, Mail, User } from "@/components/icons";
 import { LOCALES, LOCALE_NAMES } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
+import { CvPreview } from "./cv-preview";
+import type { CvLabels } from "./cv-preview";
 
 type Labels = {
   home: string;
@@ -26,10 +28,12 @@ export function SiteNav({
   lang,
   labels,
   name,
+  cv,
 }: {
   lang: Locale;
   labels: Labels;
   name: string;
+  cv: { url: string; labels: CvLabels };
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -80,6 +84,8 @@ export function SiteNav({
           );
         })}
       </div>
+
+      <CvPreview url={cv.url} labels={cv.labels} />
 
       <div className="nav-lang" ref={menuRef}>
         <button

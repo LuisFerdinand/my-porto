@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getSite } from "@/lib/content";
+import { cvUrl } from "@/lib/cv";
 import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n/config";
 import { Footer } from "./footer";
@@ -12,7 +13,12 @@ export async function SiteShell({ lang, children }: { lang: Locale; children: Re
 
   return (
     <>
-      <SiteNav lang={lang} labels={dict.nav} name={site.heroTitle} />
+      <SiteNav
+        lang={lang}
+        labels={dict.nav}
+        name={site.heroTitle}
+        cv={{ url: cvUrl(site), labels: { button: dict.nav.cv, ...dict.cv } }}
+      />
       <main className="page">
         {children}
         <Footer lang={lang} dict={dict} site={site} />
